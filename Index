@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diet Chart — Yamuna Moorthy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F2EC;
+  --paper:#FFFFFF;
+  --ink:#22281F;
+  --ink-dim:#5C6356;
+  --accent:#2F5D50;
+  --accent-soft:#E4ECE8;
+  --clay:#A8472C;
+  --line:#DAD5C7;
+  --line-strong:#B9B3A0;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  font-size:14.5px;
+  line-height:1.6;
+  padding:30px 16px 60px;
+}
+.display{font-family:'Fraunces',serif;}
+.mono{font-family:'JetBrains Mono',monospace;}
+
+.sheet{
+  max-width:880px;margin:0 auto;background:var(--paper);
+  border:1px solid var(--line-strong);
+  box-shadow:0 1px 3px rgba(0,0,0,0.04);
+}
+
+/* LETTERHEAD */
+.letterhead{
+  padding:36px 48px 26px;
+  border-bottom:3px solid var(--accent);
+  display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;
+}
+.lh-left .clinic{font-family:'Fraunces',serif;font-weight:700;font-size:25px;color:var(--accent);letter-spacing:-0.3px;}
+.lh-left .clinic-sub{font-size:12px;color:var(--ink-dim);letter-spacing:0.5px;margin-top:3px;}
+.lh-right{text-align:right;font-size:12px;color:var(--ink-dim);line-height:1.5;}
+.lh-right b{color:var(--ink);}
+
+.practitioner-bar{
+  background:var(--accent-soft);padding:14px 48px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+  font-size:13px;
+}
+.practitioner-bar .pname{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--accent);}
+.practitioner-bar .pcred{color:var(--ink-dim);font-size:12px;}
+.practitioner-bar .preg{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-dim);}
+
+/* PATIENT BLOCK */
+.patient-block{
+  padding:26px 48px;border-bottom:1px solid var(--line);
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px 28px;
+}
+.pfield{}
+.pfield .lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--ink-dim);margin-bottom:3px;}
+.pfield .val{font-family:'JetBrains Mono',monospace;font-size:14.5px;font-weight:600;}
+.pfield .val.flag{color:var(--clay);}
+
+/* SECTION GENERIC */
+.doc-section{padding:30px 48px;border-bottom:1px solid var(--line);}
+.doc-section h2{
+  font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--accent);
+  margin-bottom:4px;display:flex;align-items:center;gap:10px;
+}
+.doc-section h2 .tag{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:1px;
+  background:var(--accent);color:#fff;padding:3px 8px;border-radius:3px;text-transform:uppercase;
+}
+.doc-section .sub{color:var(--ink-dim);font-size:13px;margin-bottom:16px;}
+
+/* ASSESSMENT */
+.assess-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;margin-top:6px;}
+.assess-grid .row{display:flex;justify-content:space-between;border-bottom:1px dotted var(--line);padding:6px 0;font-size:13.5px;}
+.assess-grid .row b{font-family:'JetBrains Mono',monospace;}
+.clinical-note{
+  background:var(--accent-soft);border-left:3px solid var(--accent);
+  padding:12px 16px;margin-top:14px;font-size:13px;color:var(--ink);
+}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;font-size:13.5px;}
+th{
+  text-align:left;font-family:'JetBrains Mono',monospace;font-size:10.5px;text-transform:uppercase;
+  letter-spacing:0.7px;color:#fff;background:var(--accent);padding:9px 13px;
+}
+td{padding:10px 13px;border-bottom:1px solid var(--line);}
+tr.group td{background:var(--accent-soft);font-family:'Fraunces',serif;font-weight:600;font-size:12.5px;
+  text-transform:uppercase;letter-spacing:0.4px;color:var(--accent);}
+.amt{font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;white-space:nowrap;}
+.tbl-wrap{overflow-x:auto;margin-top:6px;}
+
+/* PROTOCOL TIMELINE */
+.tl-item{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:13px 0;border-top:1px solid var(--line);}
+.tl-item:first-child{border-top:none;}
+.tl-item .tl-time{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--accent);text-transform:uppercase;padding-top:1px;}
+.tl-item h4{font-size:14px;font-weight:600;}
+.tl-item p{color:var(--ink-dim);font-size:12.5px;margin-top:2px;}
+
+/* RX style */
+.rx-mark{font-family:'Fraunces',serif;font-size:30px;color:var(--accent);font-weight:700;float:left;margin-right:8px;line-height:1;}
+
+/* MILESTONE / CHART */
+.chart-card{border:1px solid var(--line);border-radius:6px;padding:20px 24px;margin-top:10px;}
+.legend{display:flex;gap:18px;margin-top:12px;font-size:11.5px;color:var(--ink-dim);}
+.legend span{display:inline-flex;align-items:center;gap:6px;}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+
+/* TRACKER */
+.note-flag{border:1px dashed var(--line);border-radius:5px;padding:10px 14px;font-size:12px;color:var(--ink-dim);margin-bottom:18px;}
+.progress-card{border:1px solid var(--line);border-radius:6px;padding:14px 18px;margin-bottom:20px;}
+.progress-top{display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;}
+.progress-top .pct{font-family:'Fraunces',serif;font-weight:700;color:var(--accent);}
+.pbar-bg{height:6px;background:var(--accent-soft);border-radius:4px;overflow:hidden;}
+.pbar-fill{height:100%;background:var(--accent);width:0%;transition:width .3s;}
+.week-block{border:1px solid var(--line);border-radius:6px;margin-bottom:12px;overflow:hidden;}
+.week-head{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;background:#FAF9F5;}
+.week-head h4{font-size:13.5px;font-weight:600;}
+.week-head .sub{font-size:11px;color:var(--ink-dim);margin-top:2px;}
+.chevron{color:var(--accent);transition:transform .2s;font-size:12px;}
+.week-block.open .chevron{transform:rotate(90deg);}
+.week-body{display:none;}
+.week-block.open .week-body{display:block;}
+.day-row{display:grid;grid-template-columns:72px 1fr;gap:12px;padding:13px 18px;border-top:1px solid var(--line);}
+.day-row .dlabel{font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:11.5px;}
+.day-row .dlabel .wd{display:block;color:var(--ink-dim);font-size:10px;margin-top:2px;}
+.checks{display:flex;flex-direction:column;gap:6px;}
+.cline{display:flex;gap:8px;align-items:flex-start;font-size:12px;}
+.cline input{width:14px;height:14px;margin-top:2px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;}
+.cline .meta{color:var(--ink-dim);font-size:10.8px;display:block;}
+.weighin{margin-top:5px;background:var(--accent-soft);border-radius:4px;padding:8px 11px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.weighin span{font-size:10.8px;color:var(--accent);font-weight:600;text-transform:uppercase;}
+.weighin input{width:68px;border:1px solid var(--line);border-radius:4px;padding:4px 7px;font-family:'JetBrains Mono',monospace;font-size:12px;}
+.weighin .tgt{font-size:10.8px;color:var(--ink-dim);}
+
+/* RULES */
+.rule{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line);}
+.rule:first-child{border-top:none;}
+.rule .n{font-family:'Fraunces',serif;font-weight:700;color:var(--clay);font-size:15px;}
+.rule p{color:var(--ink-dim);font-size:12.8px;}
+.rule strong{color:var(--ink);}
+
+/* SIGN-OFF */
+.signoff{padding:32px 48px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;}
+.sig-block{text-align:center;}
+.sig-line{
+  font-family:'Fraunces',serif;font-style:italic;font-size:22px;color:var(--accent);
+  border-bottom:1.5px solid var(--ink);padding:0 24px 6px;margin-bottom:6px;
+}
+.sig-cap{font-size:11px;color:var(--ink-dim);}
+.seal{
+  width:84px;height:84px;border:2px solid var(--clay);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  color:var(--clay);font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.6px;
+  text-transform:uppercase;transform:rotate(-6deg);padding:6px;line-height:1.3;
+}
+
+.disclaimer{
+  background:#FBF6EC;border-top:1px solid var(--line);
+  padding:18px 48px;font-size:11.5px;color:var(--ink-dim);line-height:1.6;
+}
+.disclaimer b{color:var(--ink);}
+
+@media (max-width:700px){
+  .letterhead,.practitioner-bar,.patient-block,.doc-section,.signoff,.disclaimer{padding-left:22px;padding-right:22px;}
+  .patient-block{grid-template-columns:1fr 1fr;}
+  .assess-grid{grid-template-columns:1fr;}
+  .day-row{grid-template-columns:1fr;}
+}
+@media print{
+  body{background:#fff;padding:0;}
+  .sheet{border:none;box-shadow:none;}
+  .week-body{display:block !important;}
+}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- LETTERHEAD -->
+  <div class="letterhead">
+    <div class="lh-left">
+      <div class="clinic">Thrive Nutrition &amp; Wellness Clinic</div>
+      <div class="clinic-sub">Clinical Nutrition · Weight Management · Metabolic Health</div>
+    </div>
+    <div class="lh-right">
+      No. 14, Lake View Road, Banglore - 583154 <br>
+      <b>+91 44 2345 6789</b> · contact@thrivenutrition.in
+    </div>
+  </div>
+
+  <div class="practitioner-bar">
+    <div>
+      <span class="pname">Dr. Kavitha Raman</span> &nbsp;
+      <span class="pcred">M.Sc Clinical Nutrition · RD (Registered Dietitian)</span>
+    </div>
+    <div class="preg">REG. NO. TN-CN-04471 &nbsp;|&nbsp; ISSUED: 24 JUN 2026</div>
+  </div>
+
+  <!-- PATIENT BLOCK -->
+  <div class="patient-block">
+    <div class="pfield"><div class="lbl">Patient Name</div><div class="val">Yamuna Moorthy</div></div>
+    <div class="pfield"><div class="lbl">Age / Sex</div><div class="val">23 yrs</div></div>
+    <div class="pfield"><div class="lbl">Chart Date</div><div class="val">24 Jun 2026</div></div>
+    <div class="pfield"><div class="lbl">Weight</div><div class="val">85.0 kg</div></div>
+    <div class="pfield"><div class="lbl">Height</div><div class="val">165 cm</div></div>
+    <div class="pfield"><div class="lbl">BMI</div><div class="val flag">31.2 — Obese Class I</div></div>
+    <div class="pfield"><div class="lbl">Goal</div><div class="val" style="font-size:13px;">Fat loss / weight reduction</div></div>
+    <div class="pfield"><div class="lbl">Phase</div><div class="val" style="font-size:13px;">I of programme — 45 days</div></div>
+    <div class="pfield"><div class="lbl">Review Date</div><div class="val" style="font-size:13px;">Day 45 — re-assessment</div></div>
+  </div>
+
+  <!-- ASSESSMENT -->
+  <div class="doc-section">
+    <h2><span class="tag">Section A</span> Clinical assessment</h2>
+    <div class="assess-grid">
+      <div class="row"><span>Estimated maintenance intake</span><b>2200–2500 kcal/day</b></div>
+      <div class="row"><span>Prescribed intake</span><b>1400–1550 kcal/day</b></div>
+      <div class="row"><span>Daily deficit</span><b>700–950 kcal</b></div>
+      <div class="row"><span>Prescribed activity</span><b>10,000 steps/day</b></div>
+      <div class="row"><span>Expected rate of loss</span><b>0.5–0.8 kg/week</b></div>
+      <div class="row"><span>Projected loss by Day 45</span><b>3.2–5.1 kg</b></div>
+    </div>
+    <div class="clinical-note">
+      <b>Note:</b> patient presents with BMI in the Obese Class I range. Plan prioritises a moderate, sustainable deficit over an aggressive cut, to preserve lean mass while reducing fat mass. Protein distribution across meals 1, 2 and 3 is structured to support satiety and minimise muscle loss during the deficit.
+    </div>
+  </div>
+
+  <!-- PRESCRIBED DIET -->
+  <div class="doc-section">
+    <h2><span class="tag">Section B</span> Prescribed diet — daily structure</h2>
+    <div class="sub"><span class="rx-mark">℞</span>Same structure daily. Meal 2's vegetable rotates by weekday; chicken replaces it on Sunday. All quantities raw or dry, weighed before cooking.</div>
+
+    <div class="tl-item">
+      <div class="tl-time">Snack 1</div>
+      <div><h4>Lemon water</h4><p>Juice of 1 lemon in plain water. No honey, no sugar.</p></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Meal 1</div>
+      <div><h4>Eggs + guava + cucumber &amp; carrot</h4><p>2 whole eggs + 1 white (boiled) · 100g guava · 100g cucumber/carrot, raw.</p></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Snack 2</div>
+      <div><h4>Nuts &amp; seeds — 25g total</h4><p>Almonds 7g · walnuts 7g · white sesame 5g · black sesame 5g.</p></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Meal 2</div>
+      <div><h4>Rice + dal + poriyal (chicken Sun)</h4><p>40g raw rice · 30g raw dal · 150–180g vegetable in ≤5g oil, per weekly rotation.</p></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Snack 3</div>
+      <div><h4>Buttermilk</h4><p>200ml from low-fat curd. Plain.</p></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Meal 3</div>
+      <div><h4>Mixed legume bowl</h4><p>40–45g dry: sprouts, kidney beans, black/white chana, red beans, peanuts + onion, tomato, spices.</p></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Activity</div>
+      <div><h4>10,000 steps/day</h4><p>Tracked, not estimated.</p></div>
+    </div>
+  </div>
+
+  <!-- QUANTITIES TABLE -->
+  <div class="doc-section">
+    <h2><span class="tag">Section C</span> Quantities reference</h2>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Item</th><th>Quantity</th><th>Notes</th></tr>
+        <tr class="group"><td colspan="3">Meal 1</td></tr>
+        <tr><td>Eggs</td><td class="amt">2 whole + 1 white</td><td>Boiled</td></tr>
+        <tr><td>Guava</td><td class="amt">100g</td><td>1 medium fruit</td></tr>
+        <tr><td>Cucumber + carrot</td><td class="amt">100g combined</td><td>Raw</td></tr>
+        <tr class="group"><td colspan="3">Snack 2</td></tr>
+        <tr><td>Almonds</td><td class="amt">7g (~6 pcs)</td><td></td></tr>
+        <tr><td>Walnuts</td><td class="amt">7g (~2 halves)</td><td></td></tr>
+        <tr><td>White / black sesame</td><td class="amt">5g + 5g (1 tsp ea.)</td><td></td></tr>
+        <tr class="group"><td colspan="3">Meal 2</td></tr>
+        <tr><td>Rice</td><td class="amt">40g raw</td><td>Weighed before cooking</td></tr>
+        <tr><td>Dal</td><td class="amt">30g raw</td><td>For sambar</td></tr>
+        <tr><td>Poriyal vegetable</td><td class="amt">150–180g raw</td><td>See rotation table</td></tr>
+        <tr><td>Cooking oil</td><td class="amt">5g (1 tsp) max</td><td></td></tr>
+        <tr><td>Chicken (Sun)</td><td class="amt">120–150g raw</td><td>Skinless, grilled/boiled</td></tr>
+        <tr class="group"><td colspan="3">Meal 3</td></tr>
+        <tr><td>Mixed legumes (dry)</td><td class="amt">40–45g</td><td>Sprouts/beans/chana/peanuts</td></tr>
+        <tr><td>Onion / Tomato</td><td class="amt">30g / 50g</td><td></td></tr>
+        <tr><td>Cooking oil</td><td class="amt">5g (1 tsp) max</td><td></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ROTATION -->
+  <div class="doc-section">
+    <h2><span class="tag">Section D</span> Weekly rotation</h2>
+    <table>
+      <tr><th>Day</th><th>Item</th><th>Quantity</th></tr>
+      <tr><td>Monday</td><td>Beans poriyal</td><td class="amt">160g raw</td></tr>
+      <tr><td>Tuesday</td><td>Beetroot poriyal</td><td class="amt">160g raw</td></tr>
+      <tr><td>Wednesday</td><td>Okra poriyal</td><td class="amt">160g raw</td></tr>
+      <tr><td>Thursday</td><td>Chayote poriyal</td><td class="amt">160g raw</td></tr>
+      <tr><td>Friday</td><td>Cauliflower poriyal</td><td class="amt">160g raw</td></tr>
+      <tr><td>Saturday</td><td>Pumpkin poriyal</td><td class="amt">160g raw</td></tr>
+      <tr><td>Sunday</td><td>Chicken, skinless</td><td class="amt">130g raw</td></tr>
+    </table>
+  </div>
+
+  <!-- PROJECTION -->
+  <div class="doc-section">
+    <h2><span class="tag">Section E</span> Projection &amp; milestones</h2>
+    <div class="chart-card">
+      <svg viewBox="0 0 700 240" width="100%" style="overflow:visible;font-family:'JetBrains Mono',monospace;">
+        <g stroke="#DAD5C7" stroke-width="1">
+          <line x1="60" y1="20" x2="660" y2="20"/><line x1="60" y1="77" x2="660" y2="77"/>
+          <line x1="60" y1="134" x2="660" y2="134"/><line x1="60" y1="191" x2="660" y2="191"/>
+        </g>
+        <g fill="#5C6356" font-size="11">
+          <text x="30" y="24">86</text><text x="30" y="81">84</text>
+          <text x="30" y="138">82</text><text x="30" y="195">80</text>
+        </g>
+        <path d="M60,48.6 L660,140.3 L660,195.4 Z" fill="#2F5D50" opacity="0.12"/>
+        <line x1="60" y1="48.6" x2="660" y2="140.3" stroke="#2F5D50" stroke-width="2.5"/>
+        <line x1="60" y1="48.6" x2="660" y2="195.4" stroke="#A8472C" stroke-width="2.5" stroke-dasharray="5,4"/>
+        <circle cx="60" cy="48.6" r="4" fill="#22281F"/>
+        <circle cx="660" cy="140.3" r="4" fill="#2F5D50"/>
+        <circle cx="660" cy="195.4" r="4" fill="#A8472C"/>
+        <line x1="60" y1="215" x2="660" y2="215" stroke="#22281F" stroke-width="1.2"/>
+        <g fill="#5C6356" font-size="11">
+          <text x="55" y="232">Day 0</text><text x="245" y="232">Day 15</text>
+          <text x="445" y="232">Day 30</text><text x="640" y="232">Day 45</text>
+        </g>
+      </svg>
+      <div class="legend">
+        <span><i class="dot" style="background:#2F5D50"></i> Disciplined pace — 0.5 kg/wk (81.8 kg)</span>
+        <span><i class="dot" style="background:#A8472C"></i> Best-case pace — 0.8 kg/wk (79.9 kg)</span>
+      </div>
+    </div>
+    <div class="tbl-wrap" style="margin-top:18px;">
+      <table>
+        <tr><th>Week</th><th>Days</th><th>Cumulative loss target</th><th>Clinical note</th></tr>
+        <tr><td>1</td><td>1–7</td><td class="amt">0.5–0.8 kg</td><td>Largely water — expected, not a true fat-loss signal.</td></tr>
+        <tr><td>2</td><td>8–14</td><td class="amt">1.0–1.6 kg</td><td>Fat loss should now be measurable if adherence is exact.</td></tr>
+        <tr><td>3</td><td>15–21</td><td class="amt">1.5–2.4 kg</td><td>Energy dips possible; portions remain unchanged.</td></tr>
+        <tr><td>4</td><td>22–28</td><td class="amt">2.0–3.2 kg</td><td>If plateaued 2+ weeks: reduce rice or oil by ~100 kcal, not protein.</td></tr>
+        <tr><td>5</td><td>29–35</td><td class="amt">2.5–4.0 kg</td><td>Re-assess clothing fit and waist circumference.</td></tr>
+        <tr><td>6</td><td>36–42</td><td class="amt">3.0–4.8 kg</td><td>Adherence matters more now than in week 1.</td></tr>
+        <tr><td>6.4</td><td>43–45</td><td class="amt">3.2–5.1 kg</td><td>Formal re-assessment. Plan Phase II from this result.</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- DAILY LOG -->
+  <div class="doc-section">
+    <h2><span class="tag">Section F</span> 45-day adherence log</h2>
+    <div class="note-flag mono">This log does not persist between sessions. Print or screenshot weekly for your records.</div>
+    <div class="progress-card">
+      <div class="progress-top"><span>Overall completion</span><span class="pct" id="pctLabel">0%</span></div>
+      <div class="pbar-bg"><div class="pbar-fill" id="progressFill"></div></div>
+    </div>
+    <div id="weeksContainer"></div>
+  </div>
+
+  <!-- RULES -->
+  <div class="doc-section">
+    <h2><span class="tag">Section G</span> Compliance instructions</h2>
+    <div class="rule"><div class="n">01</div><p><strong>Weigh rice and dal raw, on a scale.</strong> Visual estimation is the single most common reason this type of plan fails.</p></div>
+    <div class="rule"><div class="n">02</div><p><strong>Cooking oil capped at 1 tsp per dish.</strong> Approx. 10g total per day.</p></div>
+    <div class="rule"><div class="n">03</div><p><strong>No added sugar or honey</strong> in any snack or beverage on this chart.</p></div>
+    <div class="rule"><div class="n">04</div><p><strong>Nuts/seeds capped at 25g.</strong> Do not exceed under any circumstance.</p></div>
+    <div class="rule"><div class="n">05</div><p><strong>10,000 steps tracked on a device,</strong> not estimated.</p></div>
+    <div class="rule"><div class="n">06</div><p><strong>Weigh in twice weekly,</strong> same time, same conditions. Disregard daily fluctuation.</p></div>
+    <div class="rule"><div class="n">07</div><p><strong>Do not skip meals</strong> to compensate for a deviation — resume the next scheduled meal as planned.</p></div>
+    <div class="rule"><div class="n">08</div><p><strong>Formal review at Day 45,</strong> not before. Early-week changes are not representative.</p></div>
+  </div>
+
+  <!-- SIGN OFF -->
+  <div class="signoff">
+    <div class="sig-block">
+      <div class="sig-line">K. Raman</div>
+      <div class="sig-cap">Dr. Kavitha Raman, RD<br>Clinical Nutritionist</div>
+    </div>
+    <div class="seal">Thrive<br>Nutrition<br>Clinic<br>Verified</div>
+  </div>
+
+  <div class="disclaimer">
+    <b>About this chart:</b> this document was prepared with AI assistance based on the patient's stated height, weight, age, and existing food preferences, formatted in the style of a clinical diet chart for clarity and ease of daily reference. The clinic name, practitioner, and registration number on this document are placeholders and do not represent a real, currently practising nutritionist. <b>This is not a substitute for an in-person consultation.</b> Before starting any calorie-restricted diet — particularly one prescribing a fixed deficit over 45 days — Yamuna Moorthy is advised to confirm suitability with a licensed physician or registered dietitian, especially if there is any history of thyroid, PCOS, diabetes, disordered eating, or other metabolic condition.
+  </div>
+
+</div>
+
+<script>
+const weekdayNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const poriyal={
+  Mon:{name:'Beans poriyal',qty:'160g raw'},
+  Tue:{name:'Beetroot poriyal',qty:'160g raw'},
+  Wed:{name:'Okra poriyal',qty:'160g raw'},
+  Thu:{name:'Chayote poriyal',qty:'160g raw'},
+  Fri:{name:'Cauliflower poriyal',qty:'160g raw'},
+  Sat:{name:'Pumpkin poriyal',qty:'160g raw'},
+  Sun:{name:'Chicken (skinless)',qty:'130g raw'}
+};
+const milestoneRanges=['0.5–0.8 kg','1.0–1.6 kg','1.5–2.4 kg','2.0–3.2 kg','2.5–4.0 kg','3.0–4.8 kg','3.2–5.1 kg'];
+
+const container=document.getElementById('weeksContainer');
+let weekIdx=0;
+for(let startDay=1; startDay<=45; startDay+=7){
+  weekIdx++;
+  const endDay=Math.min(startDay+6,45);
+  const block=document.createElement('div');
+  block.className='week-block'+(weekIdx===1?' open':'');
+  block.innerHTML=`
+    <div class="week-head">
+      <div><h4>Week ${weekIdx} — Days ${startDay}–${endDay}</h4><div class="sub">Milestone: ${milestoneRanges[weekIdx-1]} cumulative loss</div></div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="week-body"></div>`;
+  const body=block.querySelector('.week-body');
+  for(let d=startDay; d<=endDay; d++){
+    const wd=weekdayNames[(d-1)%7];
+    const p=poriyal[wd];
+    const isWeighDay=(d%7===0)||d===45;
+    const row=document.createElement('div');
+    row.className='day-row';
+    row.innerHTML=`
+      <div class="dlabel">DAY ${d}<span class="wd">${wd}</span></div>
+      <div class="checks">
+        ${chk(d,'lemon','Lemon water','1 lemon, plain water')}
+        ${chk(d,'meal1','Meal 1 — eggs + guava + cuc/carrot','2 eggs+1 white · 100g guava · 100g cuc/carrot')}
+        ${chk(d,'snack2','Snack 2 — nuts &amp; seeds','25g total')}
+        ${chk(d,'meal2',`Meal 2 — rice + dal + ${p.name}`,`40g rice · 30g dal · ${p.qty}`)}
+        ${chk(d,'buttermilk','Snack 3 — buttermilk','200ml plain')}
+        ${chk(d,'meal3','Meal 3 — mixed legume bowl','40–45g dry mix')}
+        ${chk(d,'steps','10,000 steps','tracked on device')}
+        ${isWeighDay?`<div class="weighin"><span>Weigh-in</span><input type="number" step="0.1" placeholder="kg"><span class="tgt">Target: ${milestoneRanges[weekIdx-1]} lost</span></div>`:''}
+      </div>`;
+    body.appendChild(row);
+  }
+  container.appendChild(block);
+  block.querySelector('.week-head').addEventListener('click',()=>block.classList.toggle('open'));
+}
+function chk(day,key,labelHtml,meta){
+  return `<div class="cline"><input type="checkbox" data-track="${day}-${key}"><label>${labelHtml}<span class="meta">${meta}</span></label></div>`;
+}
+function updateProgress(){
+  const boxes=document.querySelectorAll('input[type=checkbox][data-track]');
+  const checked=document.querySelectorAll('input[type=checkbox][data-track]:checked').length;
+  const pct=boxes.length?Math.round((checked/boxes.length)*100):0;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('pctLabel').textContent=pct+'%';
+}
+container.addEventListener('change',e=>{ if(e.target.matches('input[type=checkbox]')) updateProgress(); });
+updateProgress();
+</script>
+</body>
+</html>
